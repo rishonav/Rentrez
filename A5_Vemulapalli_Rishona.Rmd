@@ -1,0 +1,31 @@
+---
+title: "A5 Part II (GenBank)"
+author: "Rishona Vemulapalli (20164619)"
+date: "2023-02-23"
+output: html_document
+---
+
+```{r}
+library(annotate)
+```
+
+Store sequence in a character vector.
+```{r}
+Seq <- "GCCTGATGGAGGGGGATAACTACTGGAAACGGTAGCTAATACCGCATGACCTCGCAAGAGCAAAGTGGGGGACCTTAGGGCCTCACGCCATCGGATGAACCCAGATGGGATTAGCTAGTAGGTGGGGTAATGGCTCACCTAGGCGACGATCCCTAGCTGGTCTGAGAGGATGACCAGCCACACTGGAACTGAGACACGGTCCAGACTCCTACGGGAGGCAGCAGTGGGGAATATTGCACAATGGGCGCAA"
+```
+
+Search for closest match on GenBank.
+Generate allignment to confirm similarity. 
+Determine if it is human or another organism. 
+Write report in R Markdown explaining to the clinician whether this is something to be concerned about, using graphics with text to explain your analysis. Pay attention to professional formatting. 
+NOTE: You may need to adjust the timeout= and hitListSize= parameters in the blastSequences() function.
+
+<br>
+
+Note: This is not working. I have tried everything and cannot seem to obtain a result before the BLAST times out (even after saying "y" when asked to wait another _ seconds.)
+```{r}
+SeqBlastDF <- blastSequences(x = "GCCTGATGGAGGGGGATAACTACTGGAAACGGTAGCTAATACCGCATGACCTCGCAAGAGCAAAGTGGGGGACCTTAGGGCCTCACGCCATCGGATGAACCCAGATGGGATTAGCTAGTAGGTGGGGTAATGGCTCACCTAGGCGACGATCCCTAGCTGGTCTGAGAGGATGACCAGCCACACTGGAACTGAGACACGGTCCAGACTCCTACGGGAGGCAGCAGTGGGGAATATTGCACAATGGGCGCAA", hitListSize = "5", timeout = 30, as = 'data.frame')
+```
+
+BLAST has determined this as seq MT509623.1	Yersinia pseudotuberculosis strain EB35 16S ribosomal RNA gene, partial sequence. I know we are not supposed to do this, but thought I'd include it anyway. This is bacteria (not human). 
+
