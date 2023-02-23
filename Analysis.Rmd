@@ -1,0 +1,84 @@
+---
+title: "A5 Analysis (Part I)"
+author: "Rishona Vemulapalli (20164619)"
+date: "2023-02-19"
+output: html_document
+---
+
+### Setup:
+```{r message = FALSE}
+library(dplyr)
+library(htmltools)
+```
+
+<br>
+
+### Image of *Borrelia burgdorferi* bacteria from the internet:
+```{r}
+img(src = "https://www.bayarealyme.org/wp-content/uploads/2014/08/borrelia-burgdorferi.jpg")
+```
+
+<br>
+
+### Wikipedia page about *Borrelia burgdorferi*:
+https://en.wikipedia.org/wiki/Borrelia_burgdorferi
+
+<br>
+
+------------------------------------------------------------------------------------------------------------------------
+
+### ANALYSIS
+
+**Importing Sequences.csv file.**
+```{r}
+Sequences <- read.csv("Sequences.csv")
+```
+
+<br>
+
+**Printing each sequence.**
+```{r}
+Sequences[1, ] # sequence 1 (HQ433692.1)
+Sequences[2, ] # sequence 2 (HQ433694.1)
+Sequences[3, ] # sequence 3 (HQ433691.1)
+```
+
+<br>
+
+**Counting the number of each nucleotide (A, T, G, C) in each of the 3 sequences, then creating a table (new dataframe) displaying this data.**
+```{r}
+for (i in 1:nrow(Sequences)) {
+  A_count <- nchar(gsub("[^A]", "", Sequences$Sequence))
+  T_count <- nchar(gsub("[^T]", "", Sequences$Sequence))
+  C_count <- nchar(gsub("[^C]", "", Sequences$Sequence))
+  G_count <- nchar(gsub("[^G]", "", Sequences$Sequence))
+  NucleotideCounts <- data.frame("Sequence_ID" = c("HQ433692.1", "HQ433694.1", "HQ433691.1"),
+                                 A_count, T_count, C_count, G_count)
+}
+
+print(NucleotideCounts)
+```
+
+<br>
+
+**Calculating GC content (% of nucleotides that are G or C) and creating a table to show GC content for each sequence ID.**
+Note: I understand that the way this is calculated is incorrect, as it is only pulling the first values, instead of running through the rest of the rows. I nonetheless have included my code below. 
+
+When I calculated it by hand, I got these values for GC content:
+
+- First sequence's GC content = 44.28%.
+- Second sequence's GC content = 44.07%. 
+- Third sequence's GC content = 44.07%. 
+
+```{r}
+NC <- NucleotideCounts[, 2:5]
+
+for (i in 1:row(NC)) {
+  GC_content <- round((sum(c(G_count, C_count))) / sum(c(A_count, T_count, G_count, C_count)) * 100, 2)
+  GC <- data.frame("Sequence_ID" = NucleotideCounts$Sequence_ID, GC_content)
+}
+
+print(GC)
+```
+
+<br>
